@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "866768930114",
+    "project_id": "plank-timer-677e6",
+    "storage_bucket": "plank-timer-677e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866768930114:android:1c5ad88e12a0b0e1ccb4db",
+        "android_client_info": {
+          "package_name": "com.lukascodes.planktimer.androidApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo-ROF-dlDlPKEmNAcH67XGDj7d3_cKMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
