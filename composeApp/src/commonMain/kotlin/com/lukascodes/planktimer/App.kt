@@ -27,7 +27,7 @@ import org.koin.dsl.koinApplication
 import org.koin.mp.KoinPlatformTools
 
 @Composable
-internal fun App() = AppTheme {
+fun App() = AppTheme {
     KoinContext {
         PreComposeApp {
             Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {

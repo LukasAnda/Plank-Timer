@@ -1,9 +1,11 @@
+import com.android.build.gradle.internal.lint.AndroidLintAnalysisTask
+import com.android.build.gradle.internal.lint.LintModelWriterTask
+
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose)
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.google.firebase.crashlytics)
 }
 
@@ -15,12 +17,6 @@ kotlin {
             }
         }
     }
-//    jvm("desktop")
-
-//    js {
-//        browser()
-//        binaries.executable()
-//    }
 
     listOf(
         iosX64(),
@@ -72,6 +68,8 @@ kotlin {
 //            implementation(libs.compose.uitooling)
             implementation(compose.preview)
             implementation(compose.uiTooling)
+            implementation(libs.firebase.crashlytics)
+            implementation(libs.androidx.startup.runtime)
             implementation(libs.kotlinx.coroutines.android)
         }
 
@@ -91,11 +89,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
-
-        applicationId = "com.lukascodes.planktimer.androidApp"
-        versionCode = 1
-        versionName = "1.0.0"
     }
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -112,10 +105,6 @@ android {
         kotlinCompilerExtensionVersion = "1.5.4"
     }
 }
-dependencies {
-    implementation(libs.androidx.startup.runtime)
-    implementation(libs.firebase.crashlytics)
-}
 
 compose.experimental {
     web.application {}
@@ -123,4 +112,11 @@ compose.experimental {
 
 task("testClasses").doLast {
     println("This is a dummy testClasses task")
+}
+tasks.withType<AndroidLintAnalysisTask>{
+    dependsOn("copyFontsToAndroidAssets")
+}
+
+tasks.withType<LintModelWriterTask>{
+    dependsOn("copyFontsToAndroidAssets")
 }

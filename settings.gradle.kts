@@ -16,3 +16,4 @@ dependencyResolutionManagement {
         maven("https://maven.universablockchain.com/")
     }
 }
+include(":androidApp")

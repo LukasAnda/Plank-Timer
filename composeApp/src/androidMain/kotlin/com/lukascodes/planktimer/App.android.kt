@@ -11,29 +11,6 @@ import com.lukascodes.planktimer.utils.applicationContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 
-class AndroidApp : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-        initKoin()
-    }
-
-    private fun initKoin() {
-        stopKoin()
-        startKoin {
-            modules(AppModule.module)
-        }
-    }
-}
-
-class AppActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            App()
-        }
-    }
-}
 
 internal actual fun openUrl(url: String?) {
     val uri = url?.let { Uri.parse(it) } ?: return
