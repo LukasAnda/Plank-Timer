@@ -23,7 +23,7 @@ abstract class BaseViewModel<State, Event : UiEvent, Direction : UiDirection>() 
         UiState(data = null, loading = LoadingState(modal = null))
     )
 
-    protected val _direction = MutableSharedFlow<Direction>()
+    private val _direction = MutableSharedFlow<Direction>()
     val direction = _direction.asSharedFlow()
 
     private val lifecycleStartedFlow = channelFlow {
