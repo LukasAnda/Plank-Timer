@@ -8,8 +8,8 @@ import org.koin.dsl.module
 
 object AppModule {
     val module = module {
-        factory { HomeViewModel(get()) }
-        factory { SettingsViewModel(get()) }
+        factory { HomeViewModel(get(), get()) }
+        factory { SettingsViewModel(get(), get()) }
         single<KeyValueStorageService> { DataStoreStorageService() }
     }
 }

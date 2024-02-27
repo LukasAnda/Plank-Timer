@@ -1,5 +1,6 @@
 package com.lukascodes.planktimer.ui.base.viewmodel
 
+import com.lukascodes.planktimer.services.analytics.AnalyticsProvider
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.StringDescription
 import com.lukascodes.planktimer.ui.base.uistate.toDescription
@@ -14,10 +15,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
-import org.jetbrains.compose.resources.StringResource
 import plank_timer.composeapp.generated.resources.Res
 
-abstract class BaseViewModel<State, Event : UiEvent, Direction : UiDirection>() : ViewModel() {
+abstract class BaseViewModel<State, Event : UiEvent, Direction : UiDirection>(
+    internal val analyticsProvider: AnalyticsProvider
+) : ViewModel() {
+
+    abstract val screenView: String
 
     protected val uiState = MutableStateFlow<UiState<State?>>(
         UiState(data = null, loading = LoadingState(modal = null))
@@ -29,6 +33,7 @@ abstract class BaseViewModel<State, Event : UiEvent, Direction : UiDirection>() 
     private val lifecycleStartedFlow = channelFlow {
         onLifecycleStarted()
         launch {
+            analyticsProvider.logScreenView(screenView)
         }
         send(Unit)
     }

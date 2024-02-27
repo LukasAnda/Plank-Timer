@@ -4,10 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import com.lukascodes.planktimer.data.prefs.api.KeyValueStorageService
-import com.lukascodes.planktimer.data.prefs.api.observeAsFlow
 import com.lukascodes.planktimer.model.StopwatchState.Paused
 import com.lukascodes.planktimer.model.StopwatchState.Resumed
 import com.lukascodes.planktimer.model.StopwatchState.Stopped
+import com.lukascodes.planktimer.services.analytics.AnalyticsEvent.StopwatchAction
+import com.lukascodes.planktimer.services.analytics.AnalyticsProvider
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.IconDescription
 import com.lukascodes.planktimer.ui.base.uistate.IconState
@@ -31,10 +32,13 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
-class HomeViewModel(private val dataStore: KeyValueStorageService) : BaseViewModel<HomeState, HomeEvent, HomeDirections>() {
+class HomeViewModel(private val dataStore: KeyValueStorageService, analyticsProvider: AnalyticsProvider) : BaseViewModel<HomeState, HomeEvent, HomeDirections>(analyticsProvider) {
     companion object {
         private const val SCREEN_ID = "home"
     }
+
+    override val screenView: String
+        get() = "Home"
 
     override fun ProducerScope<Unit>.onLifecycleStarted() {
         launch {
@@ -116,19 +120,48 @@ class HomeViewModel(private val dataStore: KeyValueStorageService) : BaseViewMod
                 viewModelScope.launch {
                     dataStore.update(KeyValueStorageService::state) {
                         when (this) {
-                            is Paused -> Resumed(this.startTime + (Clock.System.now() - this.pauseTime))
-                            is Resumed -> Paused(this.startTime, Clock.System.now())
-                            Stopped -> Resumed(Clock.System.now())
+                            is Paused -> {
+                                val newStartTime = this.startTime + (Clock.System.now() - this.pauseTime)
+                                analyticsProvider.logEvent(
+                                    StopwatchAction.Resume(
+                                        (Clock.System.now() - newStartTime).inWholeSeconds.toInt()
+                                    )
+                                )
+                                Resumed(newStartTime)
+                            }
+                            is Resumed -> {
+                                analyticsProvider.logEvent(
+                                    StopwatchAction.Stop(
+                                        (Clock.System.now() - this.startTime).inWholeSeconds.toInt()
+                                    )
+                                )
+                                Paused(this.startTime, Clock.System.now())
+                            }
+                            Stopped -> {
+                                analyticsProvider.logEvent(StopwatchAction.Start)
+                                Resumed(Clock.System.now())
+                            }
                         }
                     }
                 }
             }
             HomeEvent.Reset -> {
                 viewModelScope.launch {
+
+                    val passedSeconds = when (val currentState = dataStore.get(KeyValueStorageService::state)) {
+                        is Paused -> Clock.System.now() - currentState.startTime
+                        is Resumed -> Clock.System.now() - currentState.startTime
+                        Stopped -> 0.seconds
+                    }
+                    analyticsProvider.logEvent(
+                        StopwatchAction.Reset(passedSeconds.inWholeSeconds.toInt())
+                    )
+
                     dataStore.set(KeyValueStorageService::state, Stopped)
                 }
             }
             HomeEvent.Settings -> {
+                analyticsProvider.logEvent(StopwatchAction.Start)
                 navigate(HomeDirections.Settings)
             }
         }

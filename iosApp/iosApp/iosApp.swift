@@ -1,6 +1,7 @@
 import UIKit
 import SwiftUI
 import ComposeApp
+import FirebaseAnalytics
 
 @main
 struct iosApp: App {
@@ -19,8 +20,19 @@ struct ContentView: View {
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainKt.MainViewController()
+        MainKt.MainViewController(analyticsProvider: FirebaseAnalyticsProvider())
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+class FirebaseAnalyticsProvider : AnalyticsProvider {
+    func logEvent(eventName: String, eventParams: [String : Any]) {
+        Analytics.logEvent("button_clicked", parameters: eventParams)
+    }
+    
+    func logScreenView(screenName: String) {
+        var params: [String: Any] = [AnalyticsParameterScreenName: screenName, AnalyticsParameterScreenClass: "Main"]
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: params)
+    }
 }

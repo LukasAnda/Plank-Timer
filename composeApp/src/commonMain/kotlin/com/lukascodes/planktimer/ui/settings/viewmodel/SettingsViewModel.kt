@@ -1,6 +1,8 @@
 package com.lukascodes.planktimer.ui.settings.viewmodel
 
 import com.lukascodes.planktimer.data.prefs.api.KeyValueStorageService
+import com.lukascodes.planktimer.services.analytics.AnalyticsEvent
+import com.lukascodes.planktimer.services.analytics.AnalyticsProvider
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.toDescription
 import com.lukascodes.planktimer.ui.base.viewmodel.BaseViewModel
@@ -15,13 +17,15 @@ import plank_timer.composeapp.generated.resources.Res
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseViewModel<SettingsState, SettingsEvent, SettingsDirections>() {
+class SettingsViewModel(private val dataStore: KeyValueStorageService, analyticsProvider: AnalyticsProvider) : BaseViewModel<SettingsState, SettingsEvent, SettingsDirections>(analyticsProvider) {
     companion object {
         private const val SCREEN_ID = "settings"
     }
 
     private var observedDuration: Duration = Duration.INFINITE
     private var realDuration: Duration = Duration.INFINITE
+    override val screenView: String
+        get() = "Settings"
 
     override fun ProducerScope<Unit>.onLifecycleStarted() {
         launch {
@@ -96,7 +100,15 @@ class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseVie
         super.onEvent(event)
         when (event) {
             SettingsEvent.Back -> {
-                navigate(SettingsDirections.Back)
+                viewModelScope.launch {
+                    analyticsProvider.logEvent(
+                        AnalyticsEvent.SettingsAction.Back(
+                            realSeconds = realDuration.inWholeSeconds.toInt(),
+                            observedSeconds = observedDuration.inWholeSeconds.toInt(),
+                        )
+                    )
+                    navigate(SettingsDirections.Back)
+                }
             }
             is SettingsEvent.ObservedTimeSettings -> {
                 observedDuration = event.duration
@@ -107,6 +119,13 @@ class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseVie
             }
             SettingsEvent.Save -> {
                 viewModelScope.launch {
+                    analyticsProvider.logEvent(
+                        AnalyticsEvent.SettingsAction.Save(
+                            realSeconds = realDuration.inWholeSeconds.toInt(),
+                            observedSeconds = observedDuration.inWholeSeconds.toInt(),
+                        )
+                    )
+
                     dataStore.set(KeyValueStorageService::observedTimeMillisConfig, observedDuration.inWholeMilliseconds)
                     dataStore.set(KeyValueStorageService::realTimeMillisConfig, realDuration.inWholeMilliseconds)
                     navigate(SettingsDirections.Back)

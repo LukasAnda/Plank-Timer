@@ -45,7 +45,6 @@ kotlin {
             implementation(compose.components.resources)
             api(libs.precompose.core)
             api(libs.precompose.viewmodel)
-//            api(libs.precompose.navigation.typesafe)
             implementation(libs.kermit)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.composeIcons.featherIcons)
@@ -65,17 +64,11 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.appcompat)
             implementation(libs.androidx.activityCompose)
-//            implementation(libs.compose.uitooling)
             implementation(compose.preview)
             implementation(compose.uiTooling)
-            implementation(libs.firebase.crashlytics)
             implementation(libs.androidx.startup.runtime)
             implementation(libs.kotlinx.coroutines.android)
         }
-
-//        jsMain.dependencies {
-//            implementation(compose.html.core)
-//        }
 
         iosMain.dependencies {
         }
