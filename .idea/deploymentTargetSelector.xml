@@ -2,20 +2,9 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="composeApp">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-02-26T08:19:05.648365Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/lukas.anda/.android/avd/Pixel_7_Pro_API_34.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
       <SelectionState runConfigName="androidApp">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-02-27T08:36:12.394663Z">
+        <DropdownSelection timestamp="2024-02-27T11:02:50.425881Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=/Users/lukas.anda/.android/avd/Pixel_7_Pro_API_34_-_Personal_Email.avd" />

@@ -11,6 +11,7 @@ import com.lukascodes.planktimer.model.StopwatchState.Stopped
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.IconDescription
 import com.lukascodes.planktimer.ui.base.uistate.IconState
+import com.lukascodes.planktimer.ui.base.uistate.StringDescription
 import com.lukascodes.planktimer.ui.base.uistate.toDescription
 import com.lukascodes.planktimer.ui.base.viewmodel.BaseViewModel
 import com.lukascodes.planktimer.ui.base.viewmodel.updateData
@@ -23,6 +24,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import net.sergeych.sprintf.sprintf
+import plank_timer.composeapp.generated.resources.Res
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
@@ -63,13 +66,13 @@ class HomeViewModel(private val dataStore: KeyValueStorageService) : BaseViewMod
                     uiState.updateData {
                         HomeState(
                             resetButton = ButtonState.Text(
-                                text = "Reset".toDescription(),
+                                text = Res.string.reset.toDescription(),
                                 enabled = state !is Stopped,
                                 testId = "reset",
                                 screenId = SCREEN_ID,
                             ),
                             settingsButton = ButtonState.Text(
-                                text = "Settings".toDescription(),
+                                text = Res.string.settings.toDescription(),
                                 testId = "settings",
                                 screenId = SCREEN_ID,
                             ),
@@ -89,11 +92,11 @@ class HomeViewModel(private val dataStore: KeyValueStorageService) : BaseViewMod
                                 SCREEN_ID,
                             ),
                             stopwatch = StopwatchState(
-                                realTimeDescription = "Real time: ${realMillisConfig.milliseconds.formatToTime()}".toDescription(),
+                                realTimeDescription = StringDescription.Resource(Res.string.observed_time_description, realMillisConfig.milliseconds.formatToTime()),
                                 realFormattedTime = realTime.formatToTime().toDescription(),
                                 realProgress = (realTime.inWholeMilliseconds % 1.minutes.inWholeMilliseconds) / 1.minutes.inWholeMilliseconds.toFloat(),
                                 observedFormattedTime = observedTime.formatToTime().toDescription(),
-                                observedTimeDescription = "Observed time: ${observedMillisConfig.milliseconds.formatToTime()}".toDescription(),
+                                observedTimeDescription = StringDescription.Resource(Res.string.observed_time_description, observedMillisConfig.milliseconds.formatToTime()),
                                 observedProgress = (observedTime.inWholeMilliseconds % 1.minutes.inWholeMilliseconds) / 1.minutes.inWholeMilliseconds.toFloat(),
                                 testId = "stopwatch",
                                 screenId = SCREEN_ID,
@@ -132,23 +135,6 @@ class HomeViewModel(private val dataStore: KeyValueStorageService) : BaseViewMod
     }
 
     private fun Duration.formatToTime() = this.toComponents { hours, minutes, seconds, _ ->
-        StringBuilder().apply {
-            if (hours < 10) {
-                append(0)
-            }
-            append(hours)
-
-            append(":")
-            if (minutes < 10) {
-                append(0)
-            }
-            append(minutes)
-
-            append(":")
-            if (seconds < 10) {
-                append(0)
-            }
-            append(seconds)
-        }.toString()
+        "%02d:%02d:%02d".sprintf(hours, minutes, seconds)
     }
 }

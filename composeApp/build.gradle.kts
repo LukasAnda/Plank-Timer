@@ -55,7 +55,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.androidx.data.store.core)
-//            implementation(libs.string.tools)
+            implementation(libs.string.tools)
         }
 
         commonTest.dependencies {
@@ -113,6 +113,7 @@ compose.experimental {
 task("testClasses").doLast {
     println("This is a dummy testClasses task")
 }
+
 tasks.withType<AndroidLintAnalysisTask>{
     dependsOn("copyFontsToAndroidAssets")
 }

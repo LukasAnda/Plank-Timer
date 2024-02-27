@@ -114,8 +114,8 @@ fun <Data> MutableStateFlow<UiState<Data>>.clearAlert() {
 
 fun <Data> MutableStateFlow<UiState<Data>>.setAlert(
     message: StringDescription,
-    title: StringDescription = Res.string.hello.toDescription(),
-    primaryButtonText: StringDescription = Res.string.hello.toDescription(),
+    title: StringDescription = Res.string.empty.toDescription(),
+    primaryButtonText: StringDescription = Res.string.back.toDescription(),
 ) {
     return updateAlert {
         AlertState(

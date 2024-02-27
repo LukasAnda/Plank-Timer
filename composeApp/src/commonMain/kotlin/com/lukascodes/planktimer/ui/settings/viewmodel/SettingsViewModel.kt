@@ -1,6 +1,5 @@
 package com.lukascodes.planktimer.ui.settings.viewmodel
 
-import co.touchlab.kermit.Logger
 import com.lukascodes.planktimer.data.prefs.api.KeyValueStorageService
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.toDescription
@@ -11,11 +10,10 @@ import com.lukascodes.planktimer.ui.settings.uistate.TimeTickerState
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.viewModelScope
+import net.sergeych.sprintf.sprintf
+import plank_timer.composeapp.generated.resources.Res
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseViewModel<SettingsState, SettingsEvent, SettingsDirections>() {
     companion object {
@@ -56,7 +54,7 @@ class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseVie
             uiState.updateData {
                 SettingsState(
                     observedTimeTickerState = TimeTickerState(
-                        observedHours.toInt().formatToTime(),
+                        observedHours.formatToTime(),
                         hourValues,
                         observedMinutes.formatToTime(),
                         minuteValues,
@@ -65,9 +63,9 @@ class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseVie
                         "observedTime",
                         SCREEN_ID
                     ),
-                    observedTimeDescription = "Select a time that you want to think it is".toDescription(),
+                    observedTimeDescription = Res.string.observed_time_settings_hint.toDescription(),
                     realTimeTickerState = TimeTickerState(
-                        realHours.toInt().formatToTime(),
+                        realHours.formatToTime(),
                         hourValues,
                         realMinutes.formatToTime(),
                         minuteValues,
@@ -76,14 +74,14 @@ class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseVie
                         "realTime",
                         SCREEN_ID
                     ),
-                    realTimeDescription = "Select a time that you want to actually pass in reality".toDescription(),
+                    realTimeDescription = Res.string.real_time_settings_hint.toDescription(),
                     saveButton = ButtonState.Text(
-                        text = "Save".toDescription(),
+                        text = Res.string.save.toDescription(),
                         testId = "save",
                         screenId = SCREEN_ID,
                     ),
                     backButton = ButtonState.Text(
-                        text = "Back".toDescription(),
+                        text = Res.string.back.toDescription(),
                         testId = "back",
                         screenId = SCREEN_ID,
                     ),
@@ -92,11 +90,7 @@ class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseVie
         }
     }
 
-    private fun Int.formatToTime() = if (this < 10) {
-        "0$this"
-    } else {
-        "$this"
-    }
+    private fun Number.formatToTime() = "%02d".sprintf(this)
 
     override fun onEvent(event: SettingsEvent) {
         super.onEvent(event)
@@ -113,7 +107,6 @@ class SettingsViewModel(private val dataStore: KeyValueStorageService) : BaseVie
             }
             SettingsEvent.Save -> {
                 viewModelScope.launch {
-                    Logger.e("Real duration: $realDuration , observedDuration: $observedDuration")
                     dataStore.set(KeyValueStorageService::observedTimeMillisConfig, observedDuration.inWholeMilliseconds)
                     dataStore.set(KeyValueStorageService::realTimeMillisConfig, realDuration.inWholeMilliseconds)
                     navigate(SettingsDirections.Back)

@@ -1,15 +1,12 @@
 <resources>
-    <string name="app_name">Compose Resources App</string>
-    <string name="hello">😊 Hello world!</string>
-    <string name="multi_line">Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit.
-        Donec eget turpis ac sem ultricies consequat.</string>
-    <string name="str_template">Hello, %1$s! You have %2$d new messages.</string>
-    <string-array name="str_arr">
-        <item>item 1</item>
-        <item>item 2</item>
-        <item>item 3</item>
-    </string-array>
-    <!-- PREVIEW STRINGS -->
-    <string name="lorem_ipsum_short">Lorem ipsum</string>
+    <string name="app_name">Plank timer</string>
+    <string name="reset">Reset</string>
+    <string name="empty" />
+    <string name="settings">Settings</string>
+    <string name="save">Save</string>
+    <string name="back">Back</string>
+    <string name="real_time_description">Real time: %1$s</string>
+    <string name="observed_time_description">Observed time: %1$s</string>
+    <string name="real_time_settings_hint">Select a time that you want to actually pass in reality</string>
+    <string name="observed_time_settings_hint">Select a time that you want to think it is</string>
 </resources>
