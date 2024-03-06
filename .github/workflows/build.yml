@@ -12,7 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
+      - name: Generate build number
+        shell: bash
+        run: echo "ORG_GRADLE_PROJECT_APP_VERSION_CODE=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate version name
+        shell: bash
+        run: echo "ORG_GRADLE_PROJECT_APP_VERSION_NAME=$(/usr/bin/git describe --tags --match 'v-*.*.*' --abbrev=0 | sort -V | tail -n 1 | sed 's/^v-//')" >> $GITHUB_ENV
 
       - name: set up JDK
         uses: actions/setup-java@v4
@@ -61,3 +71,30 @@ jobs:
           name: android-test-results
           path: |
             **/build/test-results/*
+  
+
+  publish-firebase:
+    if: github.ref == 'refs/heads/main'
+    needs: [ android ]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Decrypt secrets
+        run: ./release/decrypt-secrets.sh
+        env:
+          ENCRYPT_KEY: ${{ secrets.ENCRYPT_KEY }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: android-build-outputs
+          path: android-app/app/build/outputs
+
+      - name: Publish release to firebase_distribution
+        run: bundle exec fastlane android publish_firebase

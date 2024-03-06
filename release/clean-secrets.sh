@@ -21,3 +21,5 @@ rm -f release/app-release.jks
 rm -f release/play-account.json
 
 rm -f androidApp/google-services.json
+
+rm -f release/firebase-distribution-acccount.json

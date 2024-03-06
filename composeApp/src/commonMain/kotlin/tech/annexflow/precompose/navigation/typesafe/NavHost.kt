@@ -25,7 +25,6 @@ import tech.annexflow.precompose.navigation.typesafe.internal.encodeToString
  * @param initialRoute the route for the start destination
  * @param navTransition navigation transition for the scenes in this [TypesafeNavHost]
  * @param swipeProperties properties of swipe back navigation
- * @param persistNavState whether to persist navigation state to the Saved State Registry, defaults to false
  * @param builder the builder used to construct the graph
  */
 @ExperimentalTypeSafeApi
@@ -36,7 +35,6 @@ inline fun <reified T : Route> TypesafeNavHost(
     initialRoute: T,
     navTransition: NavTransition = remember { NavTransition() },
     swipeProperties: SwipeProperties? = null,
-    persistNavState: Boolean = false,
     noinline builder: RouteBuilder.() -> Unit,
 ) {
     TypesafeNavHost(
@@ -46,7 +44,6 @@ inline fun <reified T : Route> TypesafeNavHost(
         serializer = serializer<T>(),
         navTransition = navTransition,
         swipeProperties = swipeProperties,
-        persistNavState = persistNavState,
         builder = builder
     )
 }
@@ -60,7 +57,6 @@ fun <T : Route> TypesafeNavHost(
     serializer: KSerializer<T>,
     navTransition: NavTransition = remember { NavTransition() },
     swipeProperties: SwipeProperties? = null,
-    persistNavState: Boolean = false,
     builder: RouteBuilder.() -> Unit,
 ) {
     NavHost(

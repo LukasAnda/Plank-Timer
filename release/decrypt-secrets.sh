@@ -35,6 +35,9 @@ if [[ ! -z "$ENCRYPT_KEY" ]]; then
   decrypt "${ENCRYPT_KEY}" release/app-release.gpg release/app-release.jks
   # Decrypt keystore.properties
   decrypt "${ENCRYPT_KEY}" release/keystore.properties.gpg keystore.properties
+  # Decrypt firebase-distribution-account.json
+  decrypt "${ENCRYPT_KEY}" release/firebase-distribution-account.gpg release/firebase-distribution-account.json
+
 #  # Decrypt Play Store key
 #  decrypt "${ENCRYPT_KEY}" release/play-account.gpg release/play-account.json
   # Decrypt Google Services key (Android)

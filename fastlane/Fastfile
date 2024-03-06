@@ -1,0 +1,12 @@
+platform :android do
+  lane :publish_firebase do
+    firebase_app_distribution(
+      app: "1:866768930114:android:1c5ad88e12a0b0e1ccb4db",
+      service_credentials_file: "release/firebase-distribution-account.json",
+      android_artifact_type: "APK",
+      groups: "alpha-testers",
+      android_artifact_path: "android-app/app/build/outputs/apk/release/androidApp-release.apk",
+      debug: true,
+    )
+  end
+end

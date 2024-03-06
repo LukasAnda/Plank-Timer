@@ -16,8 +16,8 @@ android {
         applicationId = "com.lukascodes.planktimer.androidApp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = properties["APP_VERSION_CODE"]?.toString()?.toInt() ?: 1
+        versionName = properties["APP_VERSION_NAME"]?.toString() ?: "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
