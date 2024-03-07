@@ -6,13 +6,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.lukascodes.planktimer.ui.base.viewmodel.UiState
+import com.lukascodes.planktimer.ui.home.components.KeepScreenOn
 import com.lukascodes.planktimer.ui.home.content.HomeContent
 import com.lukascodes.planktimer.ui.home.viewmodel.HomeViewModel
 import com.lukascodes.planktimer.ui.nav.AppRoutes
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.navigation.Navigator
 import org.koin.compose.koinInject
-import tech.annexflow.precompose.navigation.typesafe.generateRoutePattern
 import tech.annexflow.precompose.navigation.typesafe.navigate
 
 @Composable
@@ -22,6 +22,10 @@ fun HomeDestination(
 ) {
     val viewModel = koinInject<HomeViewModel>()
     val uiState by viewModel.state.collectAsStateWithLifecycle(UiState(null))
+
+    if (uiState.keepScreenOn) {
+        KeepScreenOn()
+    }
 
     uiState.data?.let {
         HomeContent(

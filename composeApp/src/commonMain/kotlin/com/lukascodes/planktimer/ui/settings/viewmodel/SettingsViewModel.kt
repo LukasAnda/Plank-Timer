@@ -3,6 +3,7 @@ package com.lukascodes.planktimer.ui.settings.viewmodel
 import com.lukascodes.planktimer.data.prefs.api.KeyValueStorageService
 import com.lukascodes.planktimer.services.analytics.AnalyticsEvent
 import com.lukascodes.planktimer.services.analytics.AnalyticsProvider
+import com.lukascodes.planktimer.services.analytics.logEvent
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.toDescription
 import com.lukascodes.planktimer.ui.base.viewmodel.BaseViewModel

@@ -8,7 +8,7 @@ sealed interface StringDescription {
     @Composable
     fun text(): String
 
-    data class Resource(private val resource: StringResource, val formatArgs: List<out Any> = emptyList()) : StringDescription {
+    data class Resource(private val resource: StringResource, val formatArgs: List<Any> = emptyList()) : StringDescription {
         constructor(resource: StringResource, vararg formatArgs: Any): this(resource, formatArgs.toList())
         @Composable
         override fun text(): String = stringResource(resource, *formatArgs.toTypedArray())
