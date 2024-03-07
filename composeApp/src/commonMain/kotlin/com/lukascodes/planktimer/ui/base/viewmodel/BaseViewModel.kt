@@ -67,6 +67,7 @@ data class UiState<Data>(
     val data: Data,
     val loading: LoadingState = LoadingState(),
     val alert: AlertState? = null,
+    val keepScreenOn: Boolean = false,
 )
 
 interface UiEvent {

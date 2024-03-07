@@ -9,6 +9,7 @@ import com.lukascodes.planktimer.model.StopwatchState.Resumed
 import com.lukascodes.planktimer.model.StopwatchState.Stopped
 import com.lukascodes.planktimer.services.analytics.AnalyticsEvent.StopwatchAction
 import com.lukascodes.planktimer.services.analytics.AnalyticsProvider
+import com.lukascodes.planktimer.services.analytics.logEvent
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.IconDescription
 import com.lukascodes.planktimer.ui.base.uistate.IconState
@@ -21,6 +22,7 @@ import com.lukascodes.planktimer.ui.home.uistate.StopwatchState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
@@ -107,6 +109,7 @@ class HomeViewModel(private val dataStore: KeyValueStorageService, analyticsProv
                             )
                         )
                     }
+                    uiState.update { it.copy(keepScreenOn = state is Resumed) }
                 }
                 delay(1.milliseconds)
             }
