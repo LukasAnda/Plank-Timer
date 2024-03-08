@@ -19,16 +19,19 @@ fun SettingsDestination(
 ) {
     val viewModel = koinInject<SettingsViewModel>()
     val uiState by viewModel.state.collectAsStateWithLifecycle(UiState(null))
-
-    uiState.data?.let {
-        SettingsContent(
-            uiState = it,
-            modifier = modifier.fillMaxSize(),
-            onEvent = viewModel::onEvent,
-        )
-    }
-
     val directions by viewModel.direction.collectAsStateWithLifecycle(null)
+
+    SettingsContent(
+        uiState = uiState,
+        modifier = modifier.fillMaxSize(),
+        onEvent = viewModel::onEvent,
+    )
+
+    SettingsNavigation(directions, navigator)
+}
+
+@Composable
+fun SettingsNavigation(directions: SettingsDirections?, navigator: Navigator) {
     LaunchedEffect(directions) {
         when (directions) {
             SettingsDirections.Back -> {
@@ -38,3 +41,4 @@ fun SettingsDestination(
         }
     }
 }
+
