@@ -6,4 +6,5 @@ sealed interface HomeEvent : UiEvent {
     data object PlayPauseToggle : HomeEvent
     data object Reset : HomeEvent
     data object Settings : HomeEvent
+    data class StopWatchPageSelected(val page: Int): HomeEvent
 }

@@ -33,7 +33,9 @@ fun HomeContent(
         Stopwatch(
             modifier = Modifier.fillMaxWidth().padding(24.dp),
             state = homeState.stopwatch,
-        )
+        ) {
+            onEvent(HomeEvent.StopWatchPageSelected(it))
+        }
         Spacer(modifier = Modifier.weight(1f))
 
         Row(

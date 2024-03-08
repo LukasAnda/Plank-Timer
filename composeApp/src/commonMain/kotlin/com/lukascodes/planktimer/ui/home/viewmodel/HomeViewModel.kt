@@ -55,6 +55,7 @@ class HomeViewModel(
 
             while (true) {
                 val state = dataStore.get(KeyValueStorageService::state)
+                val defaultPage = dataStore.get(KeyValueStorageService::stopWatchDefaultPage)
 
                 val (realTime, observedTime) = stopwatchService.getStopwatchTimes()
 
@@ -94,6 +95,7 @@ class HomeViewModel(
                                 observedFormattedTime = observedTime.formatToTime().toDescription(),
                                 observedTimeDescription = StringDescription.Resource(Res.string.observed_time_description, observedMillisConfig.milliseconds.formatToTime()),
                                 observedProgress = (observedTime.inWholeMilliseconds % 1.minutes.inWholeMilliseconds) / 1.minutes.inWholeMilliseconds.toFloat(),
+                                defaultPage = defaultPage,
                                 testId = "stopwatch",
                                 screenId = SCREEN_ID,
                             )
@@ -122,6 +124,11 @@ class HomeViewModel(
             HomeEvent.Settings -> {
                 analyticsProvider.logEvent(StopwatchAction.Settings)
                 navigate(HomeDirections.Settings)
+            }
+            is HomeEvent.StopWatchPageSelected -> {
+                viewModelScope.launch {
+                    dataStore.set(KeyValueStorageService::stopWatchDefaultPage, event.page)
+                }
             }
         }
     }

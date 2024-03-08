@@ -10,6 +10,7 @@ data class StopwatchState(
     val observedTimeDescription: StringDescription,
     val realProgress: Float,
     val observedProgress: Float,
+    val defaultPage: Int,
     override val testId: String,
     override val screenId: String,
 ): Testable {
