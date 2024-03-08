@@ -41,10 +41,10 @@ androidx-startup-runtime = { group = "androidx.startup", name = "startup-runtime
 firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.7.2" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+core-library-desugaring = { module = "com.android.tools:desugar_jdk_libs", version = "2.0.4" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-
 
 [plugins]
 

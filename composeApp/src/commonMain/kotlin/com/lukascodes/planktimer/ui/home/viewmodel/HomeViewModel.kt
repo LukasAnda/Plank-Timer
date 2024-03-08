@@ -98,7 +98,7 @@ class HomeViewModel(private val dataStore: KeyValueStorageService, analyticsProv
                                 SCREEN_ID,
                             ),
                             stopwatch = StopwatchState(
-                                realTimeDescription = StringDescription.Resource(Res.string.observed_time_description, realMillisConfig.milliseconds.formatToTime()),
+                                realTimeDescription = StringDescription.Resource(Res.string.real_time_description, realMillisConfig.milliseconds.formatToTime()),
                                 realFormattedTime = realTime.formatToTime().toDescription(),
                                 realProgress = (realTime.inWholeMilliseconds % 1.minutes.inWholeMilliseconds) / 1.minutes.inWholeMilliseconds.toFloat(),
                                 observedFormattedTime = observedTime.formatToTime().toDescription(),
