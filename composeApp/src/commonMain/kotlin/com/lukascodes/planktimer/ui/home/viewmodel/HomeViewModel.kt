@@ -29,6 +29,10 @@ import kotlinx.datetime.Clock
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import net.sergeych.sprintf.sprintf
 import plank_timer.composeapp.generated.resources.Res
+import plank_timer.composeapp.generated.resources.observed_time_description
+import plank_timer.composeapp.generated.resources.real_time_description
+import plank_timer.composeapp.generated.resources.reset
+import plank_timer.composeapp.generated.resources.settings
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
