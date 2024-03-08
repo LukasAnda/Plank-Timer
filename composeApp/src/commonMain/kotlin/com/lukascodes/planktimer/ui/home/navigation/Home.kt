@@ -22,20 +22,26 @@ fun HomeDestination(
 ) {
     val viewModel = koinInject<HomeViewModel>()
     val uiState by viewModel.state.collectAsStateWithLifecycle(UiState(null))
+    val directions by viewModel.direction.collectAsStateWithLifecycle(null)
 
     if (uiState.keepScreenOn) {
         KeepScreenOn()
     }
 
-    uiState.data?.let {
-        HomeContent(
-            uiState = it,
-            modifier = modifier.fillMaxSize(),
-            onEvent = viewModel::onEvent,
-        )
-    }
+    HomeContent(
+        uiState = uiState,
+        modifier = modifier.fillMaxSize(),
+        onEvent = viewModel::onEvent,
+    )
 
-    val directions by viewModel.direction.collectAsStateWithLifecycle(null)
+    HomeNavigation(
+        directions = directions,
+        navigator = navigator,
+    )
+}
+
+@Composable
+private fun HomeNavigation(directions: HomeDirections?, navigator: Navigator) {
     LaunchedEffect(directions) {
         when (directions) {
             HomeDirections.Settings -> {

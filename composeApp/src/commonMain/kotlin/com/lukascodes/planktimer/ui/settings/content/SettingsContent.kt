@@ -14,16 +14,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lukascodes.planktimer.ui.base.components.TextButton
+import com.lukascodes.planktimer.ui.base.viewmodel.UiState
 import com.lukascodes.planktimer.ui.settings.components.TimeTicker
 import com.lukascodes.planktimer.ui.settings.viewmodel.SettingsEvent
 import com.lukascodes.planktimer.ui.settings.viewmodel.SettingsState
 
 @Composable
 fun SettingsContent(
-    uiState: SettingsState,
+    uiState: UiState<out SettingsState?>,
     modifier: Modifier = Modifier,
     onEvent: (SettingsEvent) -> Unit = {}
 ) {
+    val settingsState = uiState.data ?: return
+
     Column(modifier = modifier.fillMaxSize().padding(24.dp)) {
         Column(
             modifier = Modifier.weight(1f),
@@ -31,12 +34,12 @@ fun SettingsContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = uiState.observedTimeDescription.text(),
+                text = settingsState.observedTimeDescription.text(),
                 style = MaterialTheme.typography.headlineSmall,
             )
             TimeTicker(
                 modifier = Modifier.padding(top = 16.dp),
-                state = uiState.observedTimeTickerState,
+                state = settingsState.observedTimeTickerState,
             ) {
                 onEvent(SettingsEvent.ObservedTimeSettings(it))
             }
@@ -48,12 +51,12 @@ fun SettingsContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = uiState.realTimeDescription.text(),
+                text = settingsState.realTimeDescription.text(),
                 style = MaterialTheme.typography.headlineSmall,
             )
             TimeTicker(
                 modifier = Modifier.padding(top = 16.dp),
-                state = uiState.realTimeTickerState,
+                state = settingsState.realTimeTickerState,
             ) {
                 onEvent(SettingsEvent.RealTimeSettings(it))
             }
@@ -65,13 +68,13 @@ fun SettingsContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(
-                state = uiState.backButton,
+                state = settingsState.backButton,
                 onClick = {
                     onEvent(SettingsEvent.Back)
                 }
             )
             TextButton(
-                state = uiState.saveButton,
+                state = settingsState.saveButton,
                 onClick = {
                     onEvent(SettingsEvent.Save)
                 }
