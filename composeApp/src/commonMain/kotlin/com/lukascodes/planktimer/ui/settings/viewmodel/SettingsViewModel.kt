@@ -3,6 +3,7 @@ package com.lukascodes.planktimer.ui.settings.viewmodel
 import com.lukascodes.planktimer.data.prefs.api.KeyValueStorageService
 import com.lukascodes.planktimer.services.analytics.AnalyticsEvent
 import com.lukascodes.planktimer.services.analytics.AnalyticsProvider
+import com.lukascodes.planktimer.services.analytics.logEvent
 import com.lukascodes.planktimer.ui.base.uistate.ButtonState
 import com.lukascodes.planktimer.ui.base.uistate.toDescription
 import com.lukascodes.planktimer.ui.base.viewmodel.BaseViewModel
@@ -14,6 +15,10 @@ import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import net.sergeych.sprintf.sprintf
 import plank_timer.composeapp.generated.resources.Res
+import plank_timer.composeapp.generated.resources.back
+import plank_timer.composeapp.generated.resources.observed_time_settings_hint
+import plank_timer.composeapp.generated.resources.real_time_settings_hint
+import plank_timer.composeapp.generated.resources.save
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 

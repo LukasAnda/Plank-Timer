@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 import plank_timer.composeapp.generated.resources.Res
+import plank_timer.composeapp.generated.resources.back
+import plank_timer.composeapp.generated.resources.empty
 
 abstract class BaseViewModel<State, Event : UiEvent, Direction : UiDirection>(
     internal val analyticsProvider: AnalyticsProvider
@@ -67,6 +69,7 @@ data class UiState<Data>(
     val data: Data,
     val loading: LoadingState = LoadingState(),
     val alert: AlertState? = null,
+    val keepScreenOn: Boolean = false,
 )
 
 interface UiEvent {

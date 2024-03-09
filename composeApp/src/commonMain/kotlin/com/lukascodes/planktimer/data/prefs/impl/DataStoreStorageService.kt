@@ -31,7 +31,7 @@ class DataStoreStorageService : KeyValueStorageService,
     override var state: StopwatchState by requiredPropertyDelegate("stopwatchState") { StopwatchState.Stopped }
     override var realTimeMillisConfig: Long by requiredPropertyDelegate("realTime") { 1.minutes.inWholeMilliseconds }
     override var observedTimeMillisConfig: Long by requiredPropertyDelegate("observedTime") { 30.seconds.inWholeMilliseconds }
-
+    override var stopWatchDefaultPage: Int by requiredPropertyDelegate("stopWatchDefaultPage") { 1 }
 
     private inline fun <reified T> optionalPropertyDelegate(
         propertyName: String? = null,

@@ -11,6 +11,7 @@ interface KeyValueStorageService : Observable<KeyValueStorageService> {
     var state: StopwatchState
     var realTimeMillisConfig: Long
     var observedTimeMillisConfig: Long
+    var stopWatchDefaultPage: Int
 
     suspend fun <T> get(property: KMutableProperty1<KeyValueStorageService, T>): T =
         withContext(coroutineDispatcher) {

@@ -1,11 +1,11 @@
 [versions]
 
 kotlin = "1.9.22"
-compose = "1.6.0-beta02"
+compose = "1.6.0"
 agp = "8.2.2"
 androidx-appcompat = "1.6.1"
 androidx-activityCompose = "1.8.2"
-precompose = "1.6.0-beta02"
+precompose = "1.6.0-rc01"
 kermit = "2.0.0-RC4"
 kotlinx-coroutines = "1.8.0"
 composeIcons = "1.1.0"
@@ -36,15 +36,15 @@ koin-core = { module = "io.insert-koin:koin-core" }
 koin-android = { module = "io.insert-koin:koin-android" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
 string-tools = { module = "net.sergeych:mp_stools", version = "1.4.7" }
-androidx-data-store-core = { module = "androidx.datastore:datastore-preferences-core", version = "1.1.0-beta01" }
+androidx-data-store-core = { module = "androidx.datastore:datastore-preferences-core", version = "1.1.0-beta02" }
 androidx-startup-runtime = { group = "androidx.startup", name = "startup-runtime", version.ref = "startupRuntime" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.7.2" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "32.7.4" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+core-library-desugaring = { module = "com.android.tools:desugar_jdk_libs", version = "2.0.4" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-
 
 [plugins]
 
