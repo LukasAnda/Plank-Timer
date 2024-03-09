@@ -102,15 +102,3 @@ android {
 compose.experimental {
     web.application {}
 }
-
-task("testClasses").doLast {
-    println("This is a dummy testClasses task")
-}
-
-tasks.withType<AndroidLintAnalysisTask>{
-    dependsOn("copyFontsToAndroidAssets")
-}
-
-tasks.withType<LintModelWriterTask>{
-    dependsOn("copyFontsToAndroidAssets")
-}
